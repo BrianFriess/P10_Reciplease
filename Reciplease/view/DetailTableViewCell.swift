@@ -9,15 +9,11 @@ import UIKit
 
 class DetailTableViewCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+   
+    @IBOutlet weak var labelDetail: UILabel!
+    
+
+    func configure(detail : String){
+        labelDetail.text = "- " + detail
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }

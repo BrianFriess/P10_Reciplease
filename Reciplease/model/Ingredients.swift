@@ -7,10 +7,21 @@
 
 import Foundation
 
-class Ingredients{
-    var name : [String] = [""]
+
+class Ingredients {
+   
+    var name : [String] = []
     
     func addIngredient(_ ingredient : String){
         name.append(ingredient)
     }
+    
+    func clearIngredient(){
+        name = []
+    }
+    
+    func removeIngredient(at index : Int){
+        name.remove(at: index)
+    }
+
 }
