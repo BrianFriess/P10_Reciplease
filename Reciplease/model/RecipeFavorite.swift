@@ -9,9 +9,20 @@ import Foundation
 import UIKit
 import CoreData
 
+protocol StorageManagerProtocol {
+    func setUp(_ container : NSPersistentContainer)
+    func persist(_ data : RecipeDecodable)
+    func loadRecipe() -> [RecipeDecodable]
+}
 
+protocol RecipeFavoriteProtocol {
+    func addRecipe(_ recipe : [RecipeDecodable])
+    func removeRecipe(at index : Int)
+    func test(_ label : String, _ url : String) -> Bool
+    var arrayRecipeFavorite: [RecipeDecodable] {get set}
+}
 
-class RecipeFavoriteTest{
+class RecipeFavoriteTest : RecipeFavoriteProtocol{
     
     static var shared = RecipeFavoriteTest()
     private init() {}
@@ -35,7 +46,10 @@ class RecipeFavoriteTest{
     }
 }
 
-class StorageManager{
+
+
+
+class StorageManager : StorageManagerProtocol{
     
     static var shared = StorageManager()
     private init() {}

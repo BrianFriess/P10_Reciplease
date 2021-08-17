@@ -17,12 +17,16 @@ class AddIngredientsViewController : UIViewController {
     var recipe = DataRecipeDecodable()
     var recipeNext = DataLinkDecodable()
     var tabUrlImage : [String]?
+    var recipeFavorite : RecipeFavoriteProtocol! = RecipeFavoriteTest.shared
+    var storageManager : StorageManagerProtocol! = StorageManager.shared
     
     @IBOutlet weak var textFieldIngredient: UITextField!
     @IBOutlet weak var tableView: UITableView!
     
+    // we load the data in CoreData for give value at recipeFavorite
     override func viewDidLoad() {
         super.viewDidLoad()
+        recipeFavorite.addRecipe(storageManager.loadRecipe())
     }
     
     enum ButtonHidden{
@@ -42,12 +46,13 @@ class AddIngredientsViewController : UIViewController {
         }
     }
     
+    //we call the function to clear all the ingredients
     @IBAction func clearButton(_ sender: Any) {
         ingredient.clearIngredient()
         tableView.reloadData()
     }
     
-    
+    //we call the function to add one ingredient
     @IBAction func AddButton(_ sender: Any) {
        guard let name = textFieldIngredient.text else{
             return
@@ -68,9 +73,11 @@ class AddIngredientsViewController : UIViewController {
     }
     
     
+    //When we click on the validateButton, we use the network call and we give the value at the segue
     @IBAction func validateButton(_ sender: Any) {
         self.setButton(.buttonIsHidden)
         let numberOfCount = ingredient.name.count
+        //
         var stringIngredient = ""
         if numberOfCount != 0{
             for i in 0 ... numberOfCount - 1{

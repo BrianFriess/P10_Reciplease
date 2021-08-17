@@ -18,11 +18,16 @@ class DetailRecipeViewController : UIViewController {
     var currentImage : UIImage?
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var rateTimeView: UIView!
+    var recipeFavorite : RecipeFavoriteProtocol! = RecipeFavoriteTest.shared
+    var storageManager : StorageManagerProtocol! = StorageManager.shared
     
 
+    override func viewWillAppear(_ animated: Bool) {
+        
+    }
     
     override func viewDidLoad() {
-        if RecipeFavoriteTest.shared.test((recipeDetail.recipe?.label)!, (recipeDetail.recipe?.url)!){
+        if recipeFavorite.test((recipeDetail.recipe?.label)!, (recipeDetail.recipe?.url)!){
             favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
         }
         configure()
@@ -85,8 +90,7 @@ class DetailRecipeViewController : UIViewController {
     
     @IBAction func favoriteButton(_ sender: Any) {
         favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
-        StorageManager.shared.persist(recipeDetail)
-        RecipeFavoriteTest.shared.addRecipe(StorageManager.shared.loadRecipe())
+        storageManager.persist(recipeDetail)
     }
 }
 

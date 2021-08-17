@@ -23,7 +23,10 @@ class ListRecipeViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+
     }
     
     //we give the value to the segue
