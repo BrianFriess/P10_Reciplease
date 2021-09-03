@@ -12,13 +12,13 @@ class AddIngredientsViewController : UIViewController {
     @IBOutlet weak var indicatorActivity: UIActivityIndicatorView!
     @IBOutlet weak var buttonValidate: UIButton!
     var ingredient = Ingredients()
-    var recipeServiceAF = RecipeServiceAlamofire(baseUrl: "https://api.edamam.com/api/recipes/v2?type=public&app_id=28b3c087&app_key=6da79e23ea992e395202ad13e064b1e7&=&=&q=")
+    var recipeServiceAF = RecipeServiceAlamofire(baseUrl: "https://api.edamam.com/api/recipes/v2?type=public&app_id=28b3c087&app_key=6da79e23ea992e395202ad13e064b1e7&=&=&q=", requester: AlamoFireRecipeService())
     let alerte = AlerteManager()
     var recipe = DataRecipeDecodable()
     var recipeNext = DataLinkDecodable()
     var tabUrlImage : [String]?
-    var recipeFavorite : RecipeFavoriteProtocol! = RecipeFavoriteTest.shared
-    var storageManager : StorageManagerProtocol! = StorageManager.shared
+    var recipeFavorite : RecipeFavoriteProtocol! = RecipeFavoriteManager.shared
+
     
     @IBOutlet weak var textFieldIngredient: UITextField!
     @IBOutlet weak var tableView: UITableView!
@@ -26,7 +26,7 @@ class AddIngredientsViewController : UIViewController {
     // we load the data in CoreData for give value at recipeFavorite
     override func viewDidLoad() {
         super.viewDidLoad()
-        recipeFavorite.addRecipe(storageManager.loadRecipe())
+        recipeFavorite.loadFavoriteRecipe()
     }
     
     enum ButtonHidden{
@@ -77,7 +77,6 @@ class AddIngredientsViewController : UIViewController {
     @IBAction func validateButton(_ sender: Any) {
         self.setButton(.buttonIsHidden)
         let numberOfCount = ingredient.name.count
-        //
         var stringIngredient = ""
         if numberOfCount != 0{
             for i in 0 ... numberOfCount - 1{
@@ -115,7 +114,7 @@ extension AddIngredientsViewController : UITextFieldDelegate {
 }
 
 
-
+//tableView Manager
 extension AddIngredientsViewController : UITableViewDataSource{
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -127,7 +126,7 @@ extension AddIngredientsViewController : UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+        //custom cell
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "IngredientsCell", for: indexPath) as? AddIngredientTableViewCell else{
             return UITableViewCell()
         }

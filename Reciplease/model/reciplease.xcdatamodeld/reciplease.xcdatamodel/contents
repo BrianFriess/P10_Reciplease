@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20G80" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20G95" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="RecipeFavorite" representedClassName="RecipeFavorite" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="image" optional="YES" attributeType="String"/>
         <attribute name="imageData" optional="YES" attributeType="Binary" customClassName="UIImage"/>
-        <attribute name="ingredientLines" optional="YES" attributeType="Transformable" customClassName="[String]"/>
+        <attribute name="ingredientLines" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
         <attribute name="label" optional="YES" attributeType="String"/>
         <attribute name="totalTime" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="url" optional="YES" attributeType="String"/>
         <attribute name="yield" optional="YES" attributeType="Double" usesScalarValueType="YES"/>
     </entity>
     <elements>
-        <element name="RecipeFavorite" positionX="-63" positionY="-18" width="128" height="134"/>
+        <element name="RecipeFavorite" positionX="-63" positionY="-18" width="128" height="149"/>
     </elements>
 </model>

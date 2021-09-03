@@ -9,36 +9,57 @@ import Foundation
 import UIKit
 import CoreData
 
+//we  create this protocol for not use the singleton on our controler
 protocol StorageManagerProtocol {
     func setUp(_ container : NSPersistentContainer)
     func persist(_ data : RecipeDecodable)
-    func loadRecipe() -> [RecipeDecodable]
+    func fetchRecipe() -> [RecipeDecodable]
+    func deleteRecipe(_ recipe : RecipeDecodable, completion : @escaping (Bool) -> Void)
 }
 
+//we  create this protocol for not use the singleton on our controler
 protocol RecipeFavoriteProtocol {
-    func addRecipe(_ recipe : [RecipeDecodable])
-    func removeRecipe(at index : Int)
-    func test(_ label : String, _ url : String) -> Bool
+    func loadFavoriteRecipe()
+    func removeRecipe(at index : Int, completion : @escaping (Bool) -> Void)
+    func addToFavorite(_ recipe : RecipeDecodable)
+    
+    func test(_ label : String, _ url : String, _ id : UUID) -> Bool
     var arrayRecipeFavorite: [RecipeDecodable] {get set}
 }
 
-class RecipeFavoriteTest : RecipeFavoriteProtocol{
+
+class RecipeFavoriteManager : RecipeFavoriteProtocol{
     
-    static var shared = RecipeFavoriteTest()
+    var storage : StorageManagerProtocol!
+    //singleton
+    static var shared = RecipeFavoriteManager()
     private init() {}
     
     var arrayRecipeFavorite = [RecipeDecodable]()
 
-    func addRecipe(_ recipe : [RecipeDecodable]){
-        arrayRecipeFavorite = recipe
-    }
-    func removeRecipe(at index : Int){
-        arrayRecipeFavorite.remove(at: index)
+    //we add recipe at the array
+    func loadFavoriteRecipe(){
+        arrayRecipeFavorite = storage.fetchRecipe()
     }
     
-    func test(_ label : String, _ url : String) -> Bool{
+    //we delete a recipe at the table level, we use the completion to wait for a response before continuing
+    func removeRecipe(at index : Int, completion : @escaping (Bool) -> Void){
+        storage.deleteRecipe(arrayRecipeFavorite[index]) { [weak self] statut in
+            if statut == true{
+                self?.arrayRecipeFavorite.remove(at: index)
+            }
+            completion (statut)
+        }
+    }
+    
+    func addToFavorite(_ recipe : RecipeDecodable){
+        storage.persist(recipe)
+    }
+    
+    //we test if we have already the recipe in our array
+    func test(_ label : String, _ url : String, _ id : UUID) -> Bool{
         for i in 0 ..< arrayRecipeFavorite.count{
-            if arrayRecipeFavorite[i].recipe?.label == label, arrayRecipeFavorite[i].recipe?.url == url {
+            if arrayRecipeFavorite[i].recipe?.label == label, arrayRecipeFavorite[i].recipe?.url == url{
                 return true
             }
         }
@@ -74,6 +95,7 @@ class StorageManager : StorageManagerProtocol{
         recipeObject.url = data.recipe?.url
         recipeObject.yield = data.recipe?.yield ?? 0.0
         recipeObject.image = data.recipe?.image
+        recipeObject.id = data.recipe?.id
         
         currentContext.perform {
             do{
@@ -84,7 +106,7 @@ class StorageManager : StorageManagerProtocol{
         }
     }
     
-    func loadRecipe() -> [RecipeDecodable]{
+    func fetchRecipe() -> [RecipeDecodable]{
         
         let fetchRequest : NSFetchRequest<RecipeFavorite> = RecipeFavorite.fetchRequest()
         guard let currentContext = currentContext else {return []}
@@ -98,9 +120,50 @@ class StorageManager : StorageManagerProtocol{
         }
         
         return recipes.map { favorite in
-            return RecipeDecodable(recipe: RecipeDetailDecodebable(label: favorite.label, image: favorite.image, url: favorite.url, yield: favorite.yield, ingredientLines: favorite.ingredientLines, totalTime: favorite.totalTime, imageData: favorite.imageData))
+            return RecipeDecodable(recipe: RecipeDetailDecodebable(label: favorite.label, image: favorite.image, url: favorite.url, yield: favorite.yield, ingredientLines: favorite.ingredientLines, totalTime: favorite.totalTime, imageData: favorite.imageData, id: favorite.id))
         }
     }
+    
+    func deleteRecipe(_ recipe : RecipeDecodable, completion : @escaping (Bool) -> Void) {
+        
+        guard let managedContext = currentContext,
+              let recipeId = recipe.recipe?.id,
+              let recipe = self.recipes("id", recipeId.uuidString).first else {
+            return
+        }
+        managedContext.delete(recipe)
+
+        managedContext.perform {
+            do {
+                completion(true)
+                try managedContext.save()
+            } catch let error {
+                print("Error removing Recipe with name : \(recipeId) from CoreData : \(error.localizedDescription)")
+                completion(false)
+            }
+        }
+    }
+    
+    func recipes(_ key: String?, _ value: String?) -> [RecipeFavorite] {
+            guard let managedContext = currentContext,
+                  let key = key,
+                  let value = value else {
+                return []
+            }
+            // Fetch Projects by Key Value
+            let fetchRequest: NSFetchRequest<RecipeFavorite> = RecipeFavorite.fetchRequest()
+            let predicate = NSPredicate(format: "%K == %@", key, value)
+            fetchRequest.predicate = predicate
+
+            var recipes = [RecipeFavorite]()
+            do {
+                recipes = try (managedContext.fetch(fetchRequest))
+            } catch let error {
+                print("No Project found with \(key): \(value) in CoreData : \(error.localizedDescription)")
+                return []
+            }
+            return recipes
+        }
 }
 
 

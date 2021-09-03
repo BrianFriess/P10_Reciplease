@@ -12,11 +12,13 @@ class ListRecipeViewController : UIViewController {
     
     var recipe = DataRecipeDecodable()
     var cellCustom = RecipeTableViewCell()
-    var imageService = ImageRecipeServiceAlamofire()
+    var imageService = ImageRecipeServiceAlamofire(requester: ImageRecipeService())
     var recipeDetail = RecipeDecodable()
     var currentImage : UIImage?
     var ispaginating = false
     var recipeNext = DataLinkDecodable()
+    var recipeFavorite : RecipeFavoriteProtocol! = RecipeFavoriteManager.shared
+
     
     @IBOutlet weak var tableView: UITableView!
 
@@ -25,8 +27,9 @@ class ListRecipeViewController : UIViewController {
         tableView.dataSource = self
     }
     
+    //we load the data in CoreData for give value at recipeFavorite
     override func viewWillAppear(_ animated: Bool) {
-
+        recipeFavorite.loadFavoriteRecipe()
     }
     
     //we give the value to the segue
@@ -39,7 +42,7 @@ class ListRecipeViewController : UIViewController {
     }
 }
 
-
+//tableView Manager
 extension ListRecipeViewController : UITableViewDataSource, UITableViewDelegate{
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -52,6 +55,7 @@ extension ListRecipeViewController : UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        //custom cell
        guard let cell = tableView.dequeueReusableCell(withIdentifier: "RecipesCell", for: indexPath) as? RecipeTableViewCell else{
         return UITableViewCell()
        }
@@ -59,7 +63,7 @@ extension ListRecipeViewController : UITableViewDataSource, UITableViewDelegate{
         
         cell.configure(title: (recipe?.recipe?.label)!, subtitles: (recipe?.recipe?.ingredientLines)!, rate: (recipe?.recipe?.yield)!, time: (recipe?.recipe?.totalTime)!)
     
-        
+        //if we don't have an image in network Call, we give a default image
         if let imageDisplay = recipe?.recipe?.imageData {
             cell.configureImage(image: UIImage(data: imageDisplay)!)
         } else{
@@ -111,7 +115,7 @@ extension ListRecipeViewController :  UIScrollViewDelegate{
 
     //pagination
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let nextRecipeService = RecipeServiceAlamofire(baseUrl: recipeNext._links?.next?.href ?? "")
+        let nextRecipeService = RecipeServiceAlamofire(baseUrl: recipeNext._links?.next?.href ?? "", requester: AlamoFireRecipeService())
         let position = scrollView.contentOffset.y
         if position > (tableView.contentSize.height-100-scrollView.frame.size.height), ispaginating == false{
             ispaginating = true

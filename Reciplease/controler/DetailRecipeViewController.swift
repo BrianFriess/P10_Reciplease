@@ -18,16 +18,14 @@ class DetailRecipeViewController : UIViewController {
     var currentImage : UIImage?
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var rateTimeView: UIView!
-    var recipeFavorite : RecipeFavoriteProtocol! = RecipeFavoriteTest.shared
-    var storageManager : StorageManagerProtocol! = StorageManager.shared
+    var recipeFavorite : RecipeFavoriteProtocol! = RecipeFavoriteManager.shared
+
     
 
-    override func viewWillAppear(_ animated: Bool) {
-        
-    }
-    
+
+    //we check if the recipe is already fav
     override func viewDidLoad() {
-        if recipeFavorite.test((recipeDetail.recipe?.label)!, (recipeDetail.recipe?.url)!){
+        if recipeFavorite.test((recipeDetail.recipe?.label)!, (recipeDetail.recipe?.url)!, (recipeDetail.recipe?.id)!){
             favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
         }
         configure()
@@ -51,6 +49,7 @@ class DetailRecipeViewController : UIViewController {
         titleLabel.layer.shadowOpacity = 0.8
     }
     
+    //we use this function for check if we have an value for the time or the yield
     func configureTimeRateLabel(){
         let time = (recipeDetail.recipe?.totalTime)!
         var timeDisplay = ""
@@ -73,28 +72,32 @@ class DetailRecipeViewController : UIViewController {
         rateTimeView.layer.shadowOpacity = 0.8
     }
     
+    //when we click on the button, we call safari for display the website with the recipe
     @IBAction func getDirectionButon(_ sender: Any) {
         
         if let urlString = recipeDetail.recipe?.url, let url = URL(string: urlString){
             let config = SFSafariViewController.Configuration()
             config.entersReaderIfAvailable = true
             
+            //we prepare our modal with the data
             let vc = SFSafariViewController(url: url, configuration: config)
             vc.modalPresentationStyle = .popover
             vc.modalTransitionStyle = .coverVertical
+            //and we present the modal
             present(vc, animated: true)
         }
     }
     
     
-    
+    //if we click on the favButton, we give the recipe at coreData with the function persist
     @IBAction func favoriteButton(_ sender: Any) {
         favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
-        storageManager.persist(recipeDetail)
+        recipeFavorite.addToFavorite(recipeDetail)
     }
 }
 
 
+//extension for our table View
 extension DetailRecipeViewController : UITableViewDataSource{
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -106,6 +109,7 @@ extension DetailRecipeViewController : UITableViewDataSource{
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        //we use our custom Cell
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "DetailCell", for: indexPath) as? DetailTableViewCell else{
             return UITableViewCell()
         }
