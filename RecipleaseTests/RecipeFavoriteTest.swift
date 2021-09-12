@@ -73,16 +73,28 @@ class RecipeFavoriteTest: XCTestCase {
         
         storage.fetchRecipeReturn = [recipe]
         
-        let testRecipe = recipeFavoriteManager.loadFavoriteRecipe()
-        
+        let testRecipe: () = recipeFavoriteManager.loadFavoriteRecipe()
       
         XCTAssert(storage.fetchRecipeCount == 1)
-        XCTAssertEqual(storage.fetchRecipeReturn, testRecipe)
+        XCTAssertNotNil(testRecipe)
+    }
+    
+    func testTestIfIsAleradyFav_IsIt_ReturnTrue(){
+        recipeFavoriteManager.arrayRecipeFavorite = [recipe]
+        let testArray = [recipe]
         
+        
+        XCTAssertTrue(recipeFavoriteManager.test((testArray[0]?.recipe?.label)!, (testArray[0]?.recipe?.url)!, (testArray[0]?.recipe?.id)!))
     }
     
     
-
+    func testTestIfIsAleradyFav_IsNot_ReturnFalse(){
+        recipeFavoriteManager.arrayRecipeFavorite = [recipe]
+        var testArray = [recipe]
+        testArray[0]?.recipe?.label = "cheese"
+        
+        XCTAssertFalse(recipeFavoriteManager.test((testArray[0]?.recipe?.label)!, (testArray[0]?.recipe?.url)!, (testArray[0]?.recipe?.id)!))
+    }
 }
 
 class MockStorageManager : StorageManagerProtocol{

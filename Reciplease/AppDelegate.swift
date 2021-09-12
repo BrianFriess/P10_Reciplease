@@ -15,8 +15,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        StorageManager.shared.setUp(persistentContainer)
-        RecipeFavoriteManager.shared.storage = StorageManager.shared
+        let storage = StorageManager()
+        storage.setUp(persistentContainer)
+           //.setUp(persistentContainer)
+        RecipeFavoriteManager.shared.storage = storage
         return true
     }
 

@@ -307,6 +307,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="150" id="Brv-Ky-OcF"/>
+                                    <constraint firstItem="eaF-34-fxt" firstAttribute="width" secondItem="fiN-T0-SnK" secondAttribute="width" multiplier="0.880597" id="LQg-5I-XdW"/>
                                     <constraint firstItem="fiN-T0-SnK" firstAttribute="leading" secondItem="Xch-Ie-ISL" secondAttribute="leading" constant="22" id="PxS-ph-VNC"/>
                                     <constraint firstItem="eaF-34-fxt" firstAttribute="leading" secondItem="fiN-T0-SnK" secondAttribute="trailing" constant="22" id="Xg6-wd-CeE"/>
                                     <constraint firstItem="eaF-34-fxt" firstAttribute="top" secondItem="zlC-Bb-RJJ" secondAttribute="bottom" constant="24.5" id="YTx-v3-oR1"/>
@@ -770,7 +771,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="4cY-Ph-9m0"/>
+        <segue reference="Vah-4X-jzg"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="hand.thumbsup.fill" catalog="system" width="128" height="121"/>

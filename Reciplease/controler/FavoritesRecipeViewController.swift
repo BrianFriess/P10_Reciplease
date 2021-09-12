@@ -15,12 +15,13 @@ class FavoritesRecipeViewController : UIViewController {
     var currentImage : UIImage?
     var currentImageData : Data?
     var recipeFavorite : RecipeFavoriteProtocol! = RecipeFavoriteManager.shared
-    var storageManager : StorageManagerProtocol! = StorageManager.shared
+   // var storageManager : StorageManagerProtocol! = StorageManager.shared
 
     //we load the data in CoreData for give value at recipeFavorite
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         recipeFavorite.loadFavoriteRecipe()
+        favTableView.tableFooterView = UIView()
         favTableView.reloadData()
     }
     
