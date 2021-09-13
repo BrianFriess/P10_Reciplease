@@ -9,7 +9,7 @@ import Foundation
 import CoreData
 
 
-//we  create this protocol for not use the singleton on our controler
+//we  create this protocol for not use the singleton
 protocol StorageManagerProtocol {
     func setUp(_ container : NSPersistentContainer)
     func persist(_ data : RecipeDecodable)
@@ -21,16 +21,21 @@ protocol StorageManagerProtocol {
 // ecrire les commentaires
 class StorageManager : StorageManagerProtocol{
     
-    //static var shared = StorageManager()
     init() {}
     var currentContext : NSManagedObjectContext?
     
+    //the function is use in AppDelegate
     func setUp(_ container : NSPersistentContainer){
         currentContext = container.viewContext
     }
     
+    
+    //we call this function to save data in coredata
     func persist(_ data : RecipeDecodable){
+        
+        //we create a request
         let fetchRequest : NSFetchRequest<RecipeFavorite> = RecipeFavorite.fetchRequest()
+        
         guard let currentContext = currentContext, let entityName = fetchRequest.entityName else {return}
         
         let recipeObject : NSManagedObject? = NSEntityDescription.insertNewObject(forEntityName: entityName, into: currentContext)
@@ -55,6 +60,7 @@ class StorageManager : StorageManagerProtocol{
         }
     }
     
+    //we call this function to load data to coredata
     func fetchRecipe() -> [RecipeDecodable]{
         
         let fetchRequest : NSFetchRequest<RecipeFavorite> = RecipeFavorite.fetchRequest()
