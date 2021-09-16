@@ -104,45 +104,6 @@ class ImageRecipeServiceAlamofire{
     }
 }
 
-struct DataRecipeDecodable : Decodable, Equatable{
-    var hits : [RecipeDecodable]?
-}
-
-struct RecipeDecodable : Decodable, Equatable{
-    
-    var recipe : RecipeDetailDecodebable?
-}
-
-struct RecipeDetailDecodebable : Decodable, Equatable{
-    var label : String? // 1st page / 2nd page
-    var image : String? // 1st page / 2nd page
-    var url : String? // 2nd page
-    var yield : Double? //1st page
-    var ingredientLines : [String]? // 1st page
-    var totalTime : Double? // 1st page
-    var imageData : Data?
-    var id : UUID? = UUID()
-    
-    enum CodingKeys : String, CodingKey{
-        case label
-        case image
-        case url
-        case yield
-        case ingredientLines
-        case totalTime
-    }
-}
-
-
-
-struct DataLinkDecodable : Decodable, Equatable{
-    var _links : LinkNextDecodable?
-}
-
-struct LinkNextDecodable : Decodable, Equatable{
-    var next : NextRefDecodable?
-}
-
-struct NextRefDecodable : Decodable, Equatable{
-    var href : String?
+struct BaseUrlService{
+     static let baseUrl = "https://api.edamam.com/api/recipes/v2?type=public&app_id=28b3c087&app_key=6da79e23ea992e395202ad13e064b1e7&=&=&q="
 }

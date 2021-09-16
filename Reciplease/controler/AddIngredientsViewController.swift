@@ -12,7 +12,7 @@ class AddIngredientsViewController : UIViewController {
     @IBOutlet weak var indicatorActivity: UIActivityIndicatorView!
     @IBOutlet weak var buttonValidate: UIButton!
     var ingredient = Ingredients()
-    var recipeServiceAF = RecipeServiceAlamofire(baseUrl: "https://api.edamam.com/api/recipes/v2?type=public&app_id=28b3c087&app_key=6da79e23ea992e395202ad13e064b1e7&=&=&q=", requester: AlamoFireRecipeService())
+    var recipeServiceAF = RecipeServiceAlamofire(baseUrl: BaseUrlService.baseUrl, requester: AlamoFireRecipeService())
     let alerte = AlerteManager()
     var recipe = DataRecipeDecodable()
     var recipeNext = DataLinkDecodable()
@@ -57,9 +57,13 @@ class AddIngredientsViewController : UIViewController {
        guard let name = textFieldIngredient.text else{
             return
         }
-        ingredient.addIngredient(name)
-        tableView.reloadData()
-        textFieldIngredient.text = ""
+        if name != "" {
+            ingredient.addIngredient(name)
+            tableView.reloadData()
+            textFieldIngredient.text = ""
+        }else{
+            alerte.alerteVc(.EmptyIngredient, self)
+        }
     }
     
     

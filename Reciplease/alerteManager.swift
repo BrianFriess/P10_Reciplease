@@ -13,6 +13,7 @@ struct AlerteManager{
     //we create an enumeration for our message alerteVC
     enum AlerteType{
         case EmptyList
+        case EmptyIngredient
 
     
 
@@ -20,7 +21,9 @@ struct AlerteManager{
         var description : String{
             switch self{
             case .EmptyList:
-                return " your list is empty"
+                return "your list is empty"
+            case .EmptyIngredient:
+                return "you didn't write anything "
             }
         }
     }

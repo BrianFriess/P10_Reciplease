@@ -9,8 +9,6 @@ import Foundation
 import UIKit
 
 
-//we  create this protocol for not use the singleton on our controler
-
 
 //we  create this protocol for not use the singleton on our controler
 protocol RecipeFavoriteProtocol {

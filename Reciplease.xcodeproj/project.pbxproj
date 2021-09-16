@@ -29,6 +29,7 @@
 		D3A245AF26D3C30700DC6F18 /* recipe.json in Resources */ = {isa = PBXBuildFile; fileRef = D3A245AE26D3C30700DC6F18 /* recipe.json */; };
 		D3A245B126D3C6DB00DC6F18 /* RecipeServiceAlamofireTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A245B026D3C6DB00DC6F18 /* RecipeServiceAlamofireTest.swift */; };
 		D3A245B326D3D39E00DC6F18 /* FakeResponseDataRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A245B226D3D39E00DC6F18 /* FakeResponseDataRecipe.swift */; };
+		D3CEE8D826F32D4B000F04CB /* DecodableManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3CEE8D726F32D4B000F04CB /* DecodableManager.swift */; };
 		D3DA072826CE929A00771EEE /* IngredientsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA072726CE929A00771EEE /* IngredientsTest.swift */; };
 		D3DA072A26CE9B1900771EEE /* RecipeFavoriteTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DA072926CE9B1900771EEE /* RecipeFavoriteTest.swift */; };
 /* End PBXBuildFile section */
@@ -70,6 +71,7 @@
 		D3A245AE26D3C30700DC6F18 /* recipe.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = recipe.json; sourceTree = "<group>"; };
 		D3A245B026D3C6DB00DC6F18 /* RecipeServiceAlamofireTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeServiceAlamofireTest.swift; sourceTree = "<group>"; };
 		D3A245B226D3D39E00DC6F18 /* FakeResponseDataRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeResponseDataRecipe.swift; sourceTree = "<group>"; };
+		D3CEE8D726F32D4B000F04CB /* DecodableManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodableManager.swift; sourceTree = "<group>"; };
 		D3DA071D26CE924900771EEE /* RecipleaseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipleaseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3DA072126CE924900771EEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D3DA072726CE929A00771EEE /* IngredientsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsTest.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 		D392B954269D94EA00A810DE /* Reciplease */ = {
 			isa = PBXGroup;
 			children = (
+				D3CEE8D726F32D4B000F04CB /* DecodableManager.swift */,
 				D339D45B26A85AFD00E04054 /* alerteManager.swift */,
 				D376774826EA5D37009F5CCC /* StorageManager.swift */,
 				D392B96B269DC59400A810DE /* model */,
@@ -356,6 +359,7 @@
 				D376774926EA5D37009F5CCC /* StorageManager.swift in Sources */,
 				D339D45C26A85AFD00E04054 /* alerteManager.swift in Sources */,
 				D392B958269D94EA00A810DE /* SceneDelegate.swift in Sources */,
+				D3CEE8D826F32D4B000F04CB /* DecodableManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
