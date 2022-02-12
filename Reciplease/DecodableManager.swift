@@ -18,12 +18,12 @@ struct RecipeDecodable : Decodable, Equatable{
 }
 
 struct RecipeDetailDecodebable : Decodable, Equatable{
-    let label : String? // 1st page / 2nd page
-    let image : String? // 1st page / 2nd page
-    let url : String? // 2nd page
-    let yield : Double? //1st page
-    let ingredientLines : [String]? // 1st page
-    let totalTime : Double? // 1st page
+    var label : String? // 1st page / 2nd page
+    var image : String? // 1st page / 2nd page
+    var url : String? // 2nd page
+    var yield : Double? //1st page
+    var ingredientLines : [String]? // 1st page
+    var totalTime : Double? // 1st page
     var imageData : Data?
     var id : UUID? = UUID()
     

@@ -14,9 +14,6 @@ struct AlerteManager{
     enum AlerteType{
         case EmptyList
         case EmptyIngredient
-
-    
-
         
         var description : String{
             switch self{
